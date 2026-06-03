@@ -3,65 +3,293 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alzz Store</title>
+<title>AlzzNotFound</title>
 <style>
-body{background:#0a0a0a;color:#fff;font-family:Arial;text-align:center;padding:20px}
-h1{color:#ff0000;font-size:32px;margin-bottom:5px}
-.card{background:#111;border:1px solid #333;border-radius:10px;padding:15px;margin:10px 0;cursor:pointer}
-.card:active{background:#1a1a1a}
-.tag{background:#ff0000;font-size:11px;padding:3px 8px;border-radius:5px;display:inline-block;margin-bottom:5px}
-.title{font-weight:bold;font-size:16px;margin:5px 0}
-.price{color:#00ff88;font-size:18px;font-weight:bold}
-.desc{color:#aaa;font-size:12px;margin-top:5px}
-.divider{height:1px;background:#333;margin:15px 0}
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+JP:wght@700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:#000;color:#fff;font-family:'Share Tech Mono',monospace;overflow-x:hidden}
+  
+  #bgVideo{position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.4) blur(2px);z-index:-1;pointer-events:none}
+  #landing{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:100;transition:opacity 0.5s}
+  #landing.hide{opacity:0;pointer-events:none;display:none !important}
+  
+  .logo-big{width:180px;height:180px;border-radius:50%;border:4px solid #ff0000;animation:pulse 2s infinite;object-fit:cover;margin-bottom:20px}
+  @keyframes pulse{0%,100%{box-shadow:0 0 20px #ff0000}50%{box-shadow:0 0 50px #ff0000}}
+  
+  .enter-btn{width:280px;height:60px;margin-top:20px;background:#000e;border:2px solid #ff0000;border-radius:10px;color:#ff0000;font-size:16px;cursor:pointer;letter-spacing:2px;font-family:'Share Tech Mono';transition:0.3s;text-shadow:0 0 10px #ff0000;backdrop-filter:blur(5px)}
+  .enter-btn:hover{background:#ff0000dd;color:#000;transform:scale(1.05);box-shadow:0 0 40px #ff0000}
+  
+  #main{display:none;min-height:100vh;background:transparent;position:relative;z-index:10}
+  #main.show{display:block}
+  
+  .glow{filter:drop-shadow(0 0 10px #ff0000)}
+  header{text-align:center;padding:30px 20px;border-bottom:1px solid #2a0000}
+  .logo{width:120px;height:120px;border-radius:50%;border:3px solid #ff0000;object-fit:cover;cursor:pointer;transition:0.3s}
+  .logo:hover{transform:rotate(10deg) scale(1.1)}
+  nav{display:flex;justify-content:center;gap:15px;padding:15px;border-bottom:1px solid #2a0000;flex-wrap:wrap}
+  .tab-btn{padding:10px 20px;background:none;border:none;border-bottom:2px solid #333;color:#888;cursor:pointer;font-size:15px;transition:0.3s}
+  .tab-btn.active{border-bottom:2px solid #ff0000;color:#ff0000;text-shadow:0 0 8px #ff0000}
+  .container{max-width:650px;margin:0 auto;padding:20px}
+  .tab-content{display:none}
+  .tab-content.active{display:block}
+  .card{border:1px solid #2a0000;background:#0a0000;padding:15px;border-radius:8px;margin-bottom:10px;cursor:pointer;transition:0.3s}
+  .card:hover{border-color:#ff0000;box-shadow:0 0 15px #ff000030;transform:translateX(5px)}
+  .price{color:#ff0000;font-weight:bold;float:right}
+  .divider{border-top:1px solid #2a0000;margin:20px 0}
+  footer{text-align:center;padding:20px;color:#555;border-top:1px solid #2a0000;margin-top:30px;font-size:12px}
+  
+  .admin-panel{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#000f9;z-index:1000;justify-content:center;align-items:center}
+  .admin-panel.show{display:flex}
+  .admin-box{background:#0a0000;border:2px solid #ff0000;border-radius:10px;padding:20px;width:90%;max-width:500px;max-height:85vh;overflow-y:auto}
+  .admin-box input, .admin-box textarea{width:100%;padding:10px;margin:8px 0;background:#000;border:1px solid #2a0000;color:#fff;border-radius:5px;font-family:'Share Tech Mono'}
+  .admin-box button{padding:10px 15px;margin:5px;background:#ff0000;color:#000;border:none;cursor:pointer;border-radius:5px;font-weight:bold}
+  .btn-del{background:#666}
+  .admin-item{border:1px solid #2a0000;padding:10px;margin:8px 0;border-radius:5px;display:flex;justify-content:space-between;align-items:center}
+  
+  .blood{position:fixed;top:-10px;width:2px;height:15px;background:linear-gradient(transparent,#ff0000);animation:fall linear infinite;z-index:5;opacity:0.3;pointer-events:none}
+  @keyframes fall{to{transform:translateY(100vh)}}
 </style>
 </head>
 <body>
-<h1>ALZZ STORE</h1>
-<p style="color:#888">Jasa Banned - Unbanned - Tools</p>
-<div id="all">Loading...</div>
-<p style="color:#555;font-size:12px;margin-top:30px">© 2026 Alzz Store | @alzzisback</p>
+
+<video autoplay muted loop playsinline id="bgVideo">
+  <source src="https://files.catbox.moe/2wo9fk.mp4" type="video/mp4">
+</video>
+
+<audio id="slashSound" preload="auto">
+  <source src="https://files.catbox.moe/9y7fxh.mp3" type="audio/mpeg">
+</audio>
+
+<div id="landing">
+  <img src="https://i.imgur.com/yIiQEkK.jpeg" alt="Logo" class="logo-big">
+  <h1 style="color:#ff0000;font-family:'Noto Sans JP';font-size:2rem" class="glow">AlzzNotFound</h1>
+  <p style="color:#aaa;font-size:14px">@alzzisback</p>
+  <button class="enter-btn" onclick="enterSite()">[ GO TO AlzzNotFound ]</button>
+</div>
+
+<div id="main">
+  <div id="bloodRain"></div>
+  <header>
+    <img src="https://i.imgur.com/yIiQEkK.jpeg" alt="Logo" class="logo glow" id="secretLogo">
+    <h2 style="color:#ff0000;margin-top:10px;font-family:'Noto Sans JP'">AlzzNotFound</h2>
+    <p style="color:#666;font-size:13px">@alzzisback</p>
+  </header>
+
+  <nav>
+    <button class="tab-btn active" onclick="openTab('all',event)">ALL</button>
+    <button class="tab-btn" onclick="openTab('product',event)">PRODUCT</button>
+    <button class="tab-btn" onclick="openTab('contact',event)">CONTAK</button>
+  </nav>
+
+  <div class="container">
+    <div id="all" class="tab-content active"></div>
+    <div id="product" class="tab-content"></div>
+    <div id="contact" class="tab-content"></div>
+  </div>
+
+  <footer>© 2026 AlzzNotFound | Made with ☠️</footer>
+</div>
+
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-box">
+    <h2 style="color:#ff0000;margin-bottom:15px">PANEL ADMIN RAHASIA</h2>
+    <div id="loginBox">
+      <input type="password" id="adminPass" placeholder="Masukin password admin">
+      <button onclick="loginAdmin()">LOGIN</button>
+    </div>
+    
+    <div id="adminContent" style="display:none">
+      <h3 style="color:#ff0000;margin:15px 0">TAMBAH PRODUK</h3>
+      <input type="text" id="pName" placeholder="Nama Produk">
+      <input type="text" id="pPrice" placeholder="Harga - contoh: 25K">
+      <input type="text" id="pType" placeholder="Type - contoh: JASA UNBANNED">
+      <button onclick="addProduct()">+ TAMBAH</button>
+      <button onclick="addDivider()">--- TAMBAH GARIS ---</button>
+      
+      <h3 style="color:#ff0000;margin:20px 0 10px">DAFTAR PRODUK</h3>
+      <div id="adminList"></div>
+      
+      <button onclick="logoutAdmin()" style="margin-top:20px;background:#666">TUTUP PANEL</button>
+    </div>
+  </div>
+</div>
 
 <script>
-const WHATSAPP = "6289525437196"
+const WA_NUMBER = "6289525437196"
+const TELEGRAM = "alzzisback"
+const ADMIN_PASS = "alzz123"
 
-let products = [
-{"name":"JASA BANNED WA","price":"25K"},
-{"divider":true},
-{"type":"JASA UNBANNED WA","name":"SPAM TINJAU","price":"12K"},
-{"type":"JASA UNBANNED WA","name":"PERMA NEW","price":"20K"},
-{"type":"JASA UNBANNED WA","name":"PERMA HARD","price":"25K"},
-{"type":"JASA UNBANNED WA","name":"PERMA BATU","price":"30K"},
-{"type":"JASA UNBANNED WA","name":"PERMA LUMUT","price":"25K"},
-{"type":"JASA UNBANNED WA","name":"PERMA LUMUT+BATU+HARD","price":"85K"},
-{"divider":true},
-{"name":"RESET OTP ALL SOSMED","price":"5K"},
-{"divider":true},
-{"name":"MURBANNED WA","price":"20K","desc":"FULL PENGAJARAN BENEFIT BANYAK UDAH FIX BALMOD UDAH BISA BUKA JASA BA WA"},
-{"divider":true},
-{"name":"MURUNBANNED WA","price":"35K","desc":"FULL PENGAJARAN BENEFIT BANYAK BISA BUKA JASA UN WA FIX BALMOD"},
-{"divider":true},
-{"name":"MURID DDOS VIA TERMUX+TELE","price":"10K"},
-{"name":"MURTAG TELE","price":"20K"},
-{"divider":true},
-{"name":"JASA BUAT WEBSITE PRODUK","price":"20K","desc":"UNTUK TAMPILAN WEBSITE SEPERTI INI"}
+let products = JSON.parse(localStorage.getItem('alzzProducts')) || [
+  {name:'JASA BANNED WA',price:'25K'},
+  {divider:true},
+  {type:'JASA UNBANNED WA',name:'SPAM TINJAU',price:'12K'},
+  {type:'JASA UNBANNED WA',name:'PERMA NEW',price:'20K'},
+  {type:'JASA UNBANNED WA',name:'PERMA HARD',price:'25K'},
+  {type:'JASA UNBANNED WA',name:'PERMA BATU',price:'30K'},
+  {type:'JASA UNBANNED WA',name:'PERMA LUMUT',price:'25K'},
+  {type:'JASA UNBANNED WA',name:'PERMA LUMUT+BATU+HARD',price:'85K'},
+  {divider:true},
+  {name:'RESET OTP ALL SOSMED',price:'5K'},
+  {divider:true},
+  {name:'MURBANNED WA',price:'20K',desc:'FULL PENGAJARAN BENEFIT BANYAK UDAH FIX BALMOD DAN BISA BUKA JASA BA WA'},
+  {divider:true},
+  {name:'MURUNBANNED WA',price:'35K',desc:'FULL PENGAJARAN, BENEFIT BANYAK,BISA BUKA JASA UN WA,FIX BALMOD'},
+  {divider:true},
+  {name:'MURID DDOS VIA TERMUX+TELE',price:'10K'},
+  {name:'MURTAG TELE',price:'20K'},
+  {divider:true},
+  {name:'JASA BUAT WEBSITE PRODUK',price:'20K',desc:'UNTUK TAMPILAN WEBSITE NYA SEPERTI WEBSITE INI'},
+  {divider:true}
 ]
 
-function renderAll(){
-let html = ""
-products.forEach(p => {
-if(p.divider) html += '<div class="divider"></div>'
-else html += `<div class="card" onclick="window.open('https://wa.me/${WHATSAPP}?text=Halo mau order ${p.name}','_blank')">
-${p.type?`<div class="tag">${p.type}</div>`:''}
-<div class="title">${p.name}</div>
-<div class="price">${p.price}</div>
-${p.desc?`<div class="desc">${p.desc}</div>`:''}
-</div>`
+let logoClicks = 0
+let lastClick = 0
+document.getElementById('secretLogo').addEventListener('click', () => {
+  let now = Date.now()
+  if(now - lastClick > 2000) logoClicks = 0
+  logoClicks++
+  lastClick = now
+  if(logoClicks >= 5){
+    document.getElementById('adminPanel').classList.add('show')
+    logoClicks = 0
+  }
 })
-document.getElementById('all').innerHTML = html
+
+function saveProducts(){
+  localStorage.setItem('alzzProducts', JSON.stringify(products))
+  renderAll()
+}
+
+function enterSite(){
+  const sound = document.getElementById('slashSound')
+  sound.volume = 0.8
+  sound.currentTime = 0
+  sound.play().catch(e=>console.log('Audio blocked:',e))
+  
+  document.getElementById('landing').classList.add('hide')
+  setTimeout(()=>{
+    document.getElementById('landing').style.display='none'
+    document.getElementById('main').classList.add('show')
+    createBloodRain()
+  },500)
+}
+
+function createBloodRain(){
+  const container = document.getElementById('bloodRain')
+  container.innerHTML = ''
+  for(let i=0;i<50;i++){
+    const drop = document.createElement('div')
+    drop.className = 'blood'
+    drop.style.left = Math.random()*100 + '%'
+    drop.style.animationDuration = 3 + Math.random()*5 + 's'
+    drop.style.animationDelay = Math.random()*5 + 's'
+    container.appendChild(drop)
+  }
+}
+
+function orderAlert(nama, harga){
+  window.open(`https://wa.me/${WA_NUMBER}?text=Halo Alzz, saya mau order:%0AProduk: ${nama}%0AHarga: ${harga}`, '_blank')
+}
+
+function openTab(tabName,event){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'))
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'))
+  document.getElementById(tabName).classList.add('active')
+  event.target.classList.add('active')
+}
+
+function renderProducts(){
+  let html = '<h2 style="color:#ff0000;font-size:1.4rem;margin-bottom:15px">PRODUCT LIST</h2>'
+  products.forEach((p,i)=>{
+    if(p.divider){html += '<div class="divider"></div>'}
+    else{
+      html += `<div class="card" onclick="orderAlert('${p.name}','${p.price}')">`
+      if(p.type) html += `<div style="font-size:11px;color:#ff0000;margin-bottom:4px">[${p.type}]</div>`
+      html += `<div>${p.name}<span class="price">${p.price}</span></div>`
+      if(p.desc) html += `<div style="color:#888;font-size:11px;margin-top:5px">${p.desc}</div>`
+      html += `</div>`
+    }
+  })
+  return html
+}
+
+function renderContact(){
+  return `<h2 style="color:#ff0000;font-size:1.4rem;margin-bottom:15px">CONTAK</h2>
+  <div class="card" style="text-align:center;padding:25px">
+    <p style="margin-bottom:20px;font-size:16px">ORDER? HUBUNGIN KONTAK INI!!!</p>
+    <div style="display:flex;justify-content:center;gap:15px;flex-wrap:wrap">
+      <a href="https://wa.me/${WA_NUMBER}" target="_blank" style="padding:12px 25px;border:2px solid #25D366;color:#25D366;text-decoration:none;border-radius:8px">WhatsApp</a>
+      <a href="https://t.me/${TELEGRAM}" target="_blank" style="padding:12px 25px;border:2px solid #0088cc;color:#0088cc;text-decoration:none;border-radius:8px">Telegram @${TELEGRAM}</a>
+    </div>
+  </div>`
+}
+
+function renderAll(){
+  document.getElementById('all').innerHTML = renderProducts() + '<div class="divider"></div>' + renderContact()
+  document.getElementById('product').innerHTML = renderProducts()
+  document.getElementById('contact').innerHTML = renderContact()
+}
+
+function loginAdmin(){
+  if(document.getElementById('adminPass').value === ADMIN_PASS){
+    document.getElementById('loginBox').style.display = 'none'
+    document.getElementById('adminContent').style.display = 'block'
+    renderAdminList()
+  } else {
+    alert('Password salah cok!')
+  }
+}
+
+function logoutAdmin(){
+  document.getElementById('adminPanel').classList.remove('show')
+  document.getElementById('loginBox').style.display = 'block'
+  document.getElementById('adminContent').style.display = 'none'
+  document.getElementById('adminPass').value = ''
+}
+
+function addProduct(){
+  const name = document.getElementById('pName').value
+  const price = document.getElementById('pPrice').value
+  const type = document.getElementById('pType').value
+  
+  if(!name || !price){alert('Nama & Harga wajib diisi!');return}
+  
+  products.push({name, price, type})
+  saveProducts()
+  renderAdminList()
+  
+  document.getElementById('pName').value = ''
+  document.getElementById('pPrice').value = ''
+  document.getElementById('pType').value = ''
+}
+
+function addDivider(){
+  products.push({divider:true})
+  saveProducts()
+  renderAdminList()
+}
+
+function deleteProduct(i){
+  if(confirm('Hapus produk ini?')){
+    products.splice(i,1)
+    saveProducts()
+    renderAdminList()
+  }
+}
+
+function renderAdminList(){
+  const list = document.getElementById('adminList')
+  list.innerHTML = products.map((p,i)=>{
+    if(p.divider) return `<div class="admin-item"><span>--- GARIS ---</span><button class="btn-del" onclick="deleteProduct(${i})">HAPUS</button></div>`
+    return `<div class="admin-item">
+      <span>${p.name} - ${p.price}</span>
+      <button class="btn-del" onclick="deleteProduct(${i})">HAPUS</button>
+    </div>`
+  }).join('')
 }
 
 renderAll()
 </script>
+
 </body>
 </html>
