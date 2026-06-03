@@ -35,47 +35,43 @@
 <script>
 const WHATSAPP_NUMBER = "6289525437196"
 const TELEGRAM = "alzzisback"
-
 let products = []
 
 function renderAll(){
-  const all = document.getElementById('all')
-  all.innerHTML = ''
-  products.forEach(p => {
-    if(p.divider){
-      all.innerHTML += '<div class="divider"></div>'
-      return
-    }
-    all.innerHTML += `
-      <div class="card" onclick="openWA('${p.name.replace(/'/g,"\\'")}')">
-        ${p.type ? `<div class="tag">${p.type}</div>` : ''}
-        <div class="title">${p.name}</div>
-        <div class="price">${p.price}</div>
-        ${p.desc ? `<div class="desc">${p.desc}</div>` : ''}
-      </div>
-    `
-  })
+  // ... function lu ...
 }
 
 function openWA(nama){
-  const msg = encodeURIComponent(`Halo Alzz, mau order ${nama}`)
-  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank')
+  // ... function lu ...
 }
 
-// LOAD PRODUK DARI JSON - TARO PALING BAWAH
-fetch('products.json')
-  .then(res => {
-    if(!res.ok) throw new Error('HTTP '+res.status)
-    return res.json()
-  })
-  .then(data => {
-    products = data
-    renderAll()
-  })
-  .catch(err => {
-    document.getElementById('all').innerHTML = '<p style="color:#ff0000;text-align:center">Gagal load produk.json<br>Error: '+err.message+'</p>'
-    console.error(err)
-  })
+// HAPUS SEMUA KODE FETCH LAMA DARI SINI
+// fetch('products.json')... sampe .catch(err => {...})
+
+// TARO KODE BARU DI SINI, PALING BAWAH SEBELUM </script>
+let products = [
+  {"name":"JASA BANNED WA","price":"25K"},
+  {"divider":true},
+  {"type":"JASA UNBANNED WA","name":"SPAM TINJAU","price":"12K"},
+  {"type":"JASA UNBANNED WA","name":"PERMA NEW","price":"20K"},
+  {"type":"JASA UNBANNED WA","name":"PERMA HARD","price":"25K"},
+  {"type":"JASA UNBANNED WA","name":"PERMA BATU","price":"30K"},
+  {"type":"JASA UNBANNED WA","name":"PERMA LUMUT","price":"25K"},
+  {"type":"JASA UNBANNED WA","name":"PERMA LUMUT+BATU+HARD","price":"85K"},
+  {"divider":true},
+  {"name":"RESET OTP ALL SOSMED","price":"5K"},
+  {"divider":true},
+  {"name":"MURBANNED WA","price":"20K","desc":"FULL PENGAJARAN BENEFIT BANYAK UDAH FIX BALMOD DAN BISA BUKA JASA BA WA"},
+  {"divider":true},
+  {"name":"MURUNBANNED WA","price":"35K","desc":"FULL PENGAJARAN, BENEFIT BANYAK,BISA BUKA JASA UN WA,FIX BALMOD"},
+  {"divider":true},
+  {"name":"MURID DDOS VIA TERMUX+TELE","price":"10K"},
+  {"name":"MURTAG TELE","price":"20K"},
+  {"divider":true},
+  {"name":"JASA BUAT WEBSITE PRODUK","price":"20K","desc":"UNTUK TAMPILAN WEBSITE NYA SEPERTI WEBSITE INI"},
+  {"divider":true}
+]
+renderAll()
 </script>
 </body>
 </html>
