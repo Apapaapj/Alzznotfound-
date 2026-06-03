@@ -3,170 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AlzzNotFound</title>
+<title>Alzz Store</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+JP:wght@700&display=swap');
-  *{margin:0;padding:0;box-sizing:border-box}
-  html,body{height:100%;background:#000;color:#fff;font-family:'Share Tech Mono',monospace;overflow-x:hidden}
-  
-  #bgVideo{position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.4) blur(2px);z-index:-1;pointer-events:none}
-  #landing{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:100;transition:opacity 0.5s}
-  #landing.hide{opacity:0;pointer-events:none;display:none !important}
-  .logo-big{width:180px;height:180px;border-radius:50%;border:4px solid #ff0000;animation:pulse 2s infinite;object-fit:cover;margin-bottom:20px}
-  @keyframes pulse{0%,100%{box-shadow:0 0 20px #ff0000}50%{box-shadow:0 0 50px #ff0000}}
-  .enter-btn{width:280px;height:60px;margin-top:20px;background:#000e;border:2px solid #ff0000;border-radius:10px;color:#ff0000;font-size:16px;cursor:pointer;letter-spacing:2px;font-family:'Share Tech Mono';transition:0.3s;text-shadow:0 0 10px #ff0000;backdrop-filter:blur(5px)}
-  .enter-btn:hover{background:#ff0000dd;color:#000;transform:scale(1.05);box-shadow:0 0 40px #ff0000}
-  
-  #main{display:none;min-height:100vh;background:transparent;position:relative;z-index:10}
-  #main.show{display:block}
-  .glow{filter:drop-shadow(0 0 10px #ff0000)}
-  header{text-align:center;padding:30px 20px;border-bottom:1px solid #2a0000}
-  .logo{width:120px;height:120px;border-radius:50%;border:3px solid #ff0000;object-fit:cover;cursor:pointer;transition:0.3s}
-  .logo:hover{transform:rotate(10deg) scale(1.1)}
-  nav{display:flex;justify-content:center;gap:15px;padding:15px;border-bottom:1px solid #2a0000;flex-wrap:wrap}
-  .tab-btn{padding:10px 20px;background:none;border:none;border-bottom:2px solid #333;color:#888;cursor:pointer;font-size:15px;transition:0.3s}
-  .tab-btn.active{border-bottom:2px solid #ff0000;color:#ff0000;text-shadow:0 0 8px #ff0000}
-  .container{max-width:650px;margin:0 auto;padding:20px}
-  .tab-content{display:none}
-  .tab-content.active{display:block}
-  .card{border:1px solid #2a0000;background:#0a0000;padding:15px;border-radius:8px;margin-bottom:10px;cursor:pointer;transition:0.3s}
-  .card:hover{border-color:#ff0000;box-shadow:0 0 15px #ff000030;transform:translateX(5px)}
-  .price{color:#ff0000;font-weight:bold;float:right}
-  .desc{font-size:11px;color:#999;margin-top:6px;line-height:1.4}
-  .divider{border-top:1px solid #2a0000;margin:20px 0}
-  footer{text-align:center;padding:20px;color:#555;border-top:1px solid #2a0000;margin-top:30px;font-size:12px}
-  .blood{position:fixed;top:-10px;width:2px;height:15px;background:linear-gradient(transparent,#ff0000);animation:fall linear infinite;z-index:5;opacity:0.3;pointer-events:none}
-  @keyframes fall{to{transform:translateY(100vh)}}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+  body{background:#0a0a0a;color:#fff}
+  .container{max-width:600px;margin:0 auto;padding:20px}
+  .header{text-align:center;padding:30px 0;border-bottom:1px solid #333}
+  .header h1{font-size:28px;color:#ff0000;margin-bottom:5px}
+  .header p{color:#888;font-size:14px}
+  #all{display:grid;gap:12px;margin-top:20px}
+  .card{background:#111;border:1px solid #222;border-radius:12px;padding:15px;cursor:pointer;transition:0.2s}
+  .card:active{transform:scale(0.98);background:#1a1a1a}
+  .tag{display:inline-block;background:#ff0000;color:#fff;font-size:10px;padding:3px 8px;border-radius:6px;margin-bottom:8px;font-weight:bold}
+  .title{font-size:16px;font-weight:bold;margin-bottom:5px}
+  .price{color:#00ff88;font-size:18px;font-weight:bold}
+  .desc{color:#aaa;font-size:12px;margin-top:6px;line-height:1.4}
+  .divider{height:1px;background:#333;margin:20px 0}
+  .footer{text-align:center;padding:30px 0;color:#555;font-size:12px}
 </style>
 </head>
 <body>
-
-<video autoplay muted loop playsinline id="bgVideo">
-  <source src="https://files.catbox.moe/2wo9fk.mp4" type="video/mp4">
-</video>
-
-<audio id="slashSound" preload="auto">
-  <source src="https://files.catbox.moe/9y7fxh.mp3" type="audio/mpeg">
-</audio>
-
-<div id="landing">
-  <img src="https://i.imgur.com/yIiQEkK.jpeg" alt="Logo" class="logo-big">
-  <h1 style="color:#ff0000;font-family:'Noto Sans JP';font-size:2rem" class="glow">AlzzNotFound</h1>
-  <p style="color:#aaa;font-size:14px">@alzzisback</p>
-  <button class="enter-btn" onclick="enterSite()">[ GO TO AlzzNotFound ]</button>
-</div>
-
-<div id="main">
-  <div id="bloodRain"></div>
-  <header>
-    <img src="https://i.imgur.com/yIiQEkK.jpeg" alt="Logo" class="logo glow">
-    <h2 style="color:#ff0000;margin-top:10px;font-family:'Noto Sans JP'">AlzzNotFound</h2>
-    <p style="color:#666;font-size:13px">@alzzisback</p>
-  </header>
-
-  <nav>
-    <button class="tab-btn active" onclick="openTab('all',event)">ALL</button>
-    <button class="tab-btn" onclick="openTab('product',event)">PRODUCT</button>
-    <button class="tab-btn" onclick="openTab('contact',event)">CONTAK</button>
-  </nav>
-
-  <div class="container">
-    <div id="all" class="tab-content active"></div>
-    <div id="product" class="tab-content"></div>
-    <div id="contact" class="tab-content"></div>
+<div class="container">
+  <div class="header">
+    <h1>ALZZ STORE</h1>
+    <p>Jasa Banned - Unbanned - Tools</p>
   </div>
-
-  <footer>© 2026 AlzzNotFound | Made with ☠️</footer>
+  <div id="all"><p style="text-align:center;color:#666">Loading produk...</p></div>
+  <div class="footer">© 2026 Alzz Store | Contact: @alzzisback</div>
 </div>
 
 <script>
-const WA_NUMBER = "6289525437196"
+const WHATSAPP_NUMBER = "6289525437196"
 const TELEGRAM = "alzzisback"
+
 let products = []
 
-function enterSite(){
-  const sound = document.getElementById('slashSound')
-  sound.volume = 0.8
-  sound.currentTime = 0
-  sound.play().catch(e=>console.log('Audio blocked:',e))
-  
-  document.getElementById('landing').classList.add('hide')
-  setTimeout(()=>{
-    document.getElementById('landing').style.display='none'
-    document.getElementById('main').classList.add('show')
-    createBloodRain()
-  },500)
-}
-
-function createBloodRain(){
-  const container = document.getElementById('bloodRain')
-  container.innerHTML = ''
-  for(let i=0;i<50;i++){
-    const drop = document.createElement('div')
-    drop.className = 'blood'
-    drop.style.left = Math.random()*100 + '%'
-    drop.style.animationDuration = 3 + Math.random()*5 + 's'
-    drop.style.animationDelay = Math.random()*5 + 's'
-    container.appendChild(drop)
-  }
-}
-
-function orderAlert(nama, harga){
-  window.open(`https://wa.me/${WA_NUMBER}?text=Halo Alzz, saya mau order:%0AProduk: ${nama}%0AHarga: ${harga}`, '_blank')
-}
-
-function openTab(tabName,event){
-  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'))
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'))
-  document.getElementById(tabName).classList.add('active')
-  event.target.classList.add('active')
-}
-
-function renderProducts(){
-  if(products.length === 0) return '<p style="color:#ff0000;text-align:center">Loading produk...</p>'
-  let html = '<h2 style="color:#ff0000;font-size:1.4rem;margin-bottom:15px">PRODUCT LIST</h2>'
-  products.forEach(p=>{
-    if(p.divider){html += '<div class="divider"></div>'}
-    else{
-      html += `<div class="card" onclick="orderAlert('${p.name}','${p.price}')">`
-      if(p.type) html += `<div style="font-size:11px;color:#ff0000;margin-bottom:4px">[${p.type}]</div>`
-      html += `<div>${p.name}<span class="price">${p.price}</span></div>`
-      if(p.desc) html += `<div class="desc">${p.desc}</div>`
-      html += `</div>`
-    }
-  })
-  return html
-}
-
-function renderContact(){
-  return `<h2 style="color:#ff0000;font-size:1.4rem;margin-bottom:15px">CONTAK</h2>
-  <div class="card" style="text-align:center;padding:25px">
-    <p style="margin-bottom:20px;font-size:16px">ORDER? HUBUNGIN KONTAK INI!!!</p>
-    <div style="display:flex;justify-content:center;gap:15px;flex-wrap:wrap">
-      <a href="https://wa.me/${WA_NUMBER}" target="_blank" style="padding:12px 25px;border:2px solid #25D366;color:#25D366;text-decoration:none;border-radius:8px">WhatsApp</a>
-      <a href="https://t.me/${TELEGRAM}" target="_blank" style="padding:12px 25px;border:2px solid #0088cc;color:#0088cc;text-decoration:none;border-radius:8px">Telegram @${TELEGRAM}</a>
-    </div>
-  </div>`
-}
-
 function renderAll(){
-  document.getElementById('all').innerHTML = renderProducts() + '<div class="divider"></div>' + renderContact()
-  document.getElementById('product').innerHTML = renderProducts()
-  document.getElementById('contact').innerHTML = renderContact()
+  const all = document.getElementById('all')
+  all.innerHTML = ''
+  products.forEach(p => {
+    if(p.divider){
+      all.innerHTML += '<div class="divider"></div>'
+      return
+    }
+    all.innerHTML += `
+      <div class="card" onclick="openWA('${p.name.replace(/'/g,"\\'")}')">
+        ${p.type ? `<div class="tag">${p.type}</div>` : ''}
+        <div class="title">${p.name}</div>
+        <div class="price">${p.price}</div>
+        ${p.desc ? `<div class="desc">${p.desc}</div>` : ''}
+      </div>
+    `
+  })
 }
 
-// LOAD PRODUK DARI FILE JSON - INI KUNCINYA
+function openWA(nama){
+  const msg = encodeURIComponent(`Halo Alzz, mau order ${nama}`)
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank')
+}
+
+// LOAD PRODUK DARI JSON - TARO PALING BAWAH
 fetch('products.json')
-  .then(res => res.json())
+  .then(res => {
+    if(!res.ok) throw new Error('HTTP '+res.status)
+    return res.json()
+  })
   .then(data => {
     products = data
     renderAll()
   })
   .catch(err => {
-    console.log('Gagal load produk:', err)
-    document.getElementById('all').innerHTML = '<p style="color:#ff0000;text-align:center">Gagal load products.json</p>'
+    document.getElementById('all').innerHTML = '<p style="color:#ff0000;text-align:center">Gagal load produk.json<br>Error: '+err.message+'</p>'
+    console.error(err)
   })
 </script>
-
 </body>
 </html>
