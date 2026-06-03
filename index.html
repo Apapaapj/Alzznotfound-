@@ -5,72 +5,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alzz Store</title>
 <style>
-  *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-  body{background:#0a0a0a;color:#fff}
-  .container{max-width:600px;margin:0 auto;padding:20px}
-  .header{text-align:center;padding:30px 0;border-bottom:1px solid #333}
-  .header h1{font-size:28px;color:#ff0000;margin-bottom:5px}
-  .header p{color:#888;font-size:14px}
-  #all{display:grid;gap:12px;margin-top:20px}
-  .card{background:#111;border:1px solid #222;border-radius:12px;padding:15px;cursor:pointer;transition:0.2s}
-  .card:active{transform:scale(0.98);background:#1a1a1a}
-  .tag{display:inline-block;background:#ff0000;color:#fff;font-size:10px;padding:3px 8px;border-radius:6px;margin-bottom:8px;font-weight:bold}
-  .title{font-size:16px;font-weight:bold;margin-bottom:5px}
-  .price{color:#00ff88;font-size:18px;font-weight:bold}
-  .desc{color:#aaa;font-size:12px;margin-top:6px;line-height:1.4}
-  .divider{height:1px;background:#333;margin:20px 0}
-  .footer{text-align:center;padding:30px 0;color:#555;font-size:12px}
+body{background:#0a0a0a;color:#fff;font-family:Arial;text-align:center;padding:20px}
+h1{color:#ff0000;font-size:32px;margin-bottom:5px}
+.card{background:#111;border:1px solid #333;border-radius:10px;padding:15px;margin:10px 0;cursor:pointer}
+.card:active{background:#1a1a1a}
+.tag{background:#ff0000;font-size:11px;padding:3px 8px;border-radius:5px;display:inline-block;margin-bottom:5px}
+.title{font-weight:bold;font-size:16px;margin:5px 0}
+.price{color:#00ff88;font-size:18px;font-weight:bold}
+.desc{color:#aaa;font-size:12px;margin-top:5px}
+.divider{height:1px;background:#333;margin:15px 0}
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="header">
-    <h1>ALZZ STORE</h1>
-    <p>Jasa Banned - Unbanned - Tools</p>
-  </div>
-  <div id="all"><p style="text-align:center;color:#666">Loading produk...</p></div>
-  <div class="footer">© 2026 Alzz Store | Contact: @alzzisback</div>
-</div>
+<h1>ALZZ STORE</h1>
+<p style="color:#888">Jasa Banned - Unbanned - Tools</p>
+<div id="all">Loading...</div>
+<p style="color:#555;font-size:12px;margin-top:30px">© 2026 Alzz Store | @alzzisback</p>
 
 <script>
-const WHATSAPP_NUMBER = "6289525437196"
-const TELEGRAM = "alzzisback"
-let products = []
+const WHATSAPP = "6289525437196"
+
+let products = [
+{"name":"JASA BANNED WA","price":"25K"},
+{"divider":true},
+{"type":"JASA UNBANNED WA","name":"SPAM TINJAU","price":"12K"},
+{"type":"JASA UNBANNED WA","name":"PERMA NEW","price":"20K"},
+{"type":"JASA UNBANNED WA","name":"PERMA HARD","price":"25K"},
+{"type":"JASA UNBANNED WA","name":"PERMA BATU","price":"30K"},
+{"type":"JASA UNBANNED WA","name":"PERMA LUMUT","price":"25K"},
+{"type":"JASA UNBANNED WA","name":"PERMA LUMUT+BATU+HARD","price":"85K"},
+{"divider":true},
+{"name":"RESET OTP ALL SOSMED","price":"5K"},
+{"divider":true},
+{"name":"MURBANNED WA","price":"20K","desc":"FULL PENGAJARAN BENEFIT BANYAK UDAH FIX BALMOD UDAH BISA BUKA JASA BA WA"},
+{"divider":true},
+{"name":"MURUNBANNED WA","price":"35K","desc":"FULL PENGAJARAN BENEFIT BANYAK BISA BUKA JASA UN WA FIX BALMOD"},
+{"divider":true},
+{"name":"MURID DDOS VIA TERMUX+TELE","price":"10K"},
+{"name":"MURTAG TELE","price":"20K"},
+{"divider":true},
+{"name":"JASA BUAT WEBSITE PRODUK","price":"20K","desc":"UNTUK TAMPILAN WEBSITE SEPERTI INI"}
+]
 
 function renderAll(){
-  // ... function lu ...
+let html = ""
+products.forEach(p => {
+if(p.divider) html += '<div class="divider"></div>'
+else html += `<div class="card" onclick="window.open('https://wa.me/${WHATSAPP}?text=Halo mau order ${p.name}','_blank')">
+${p.type?`<div class="tag">${p.type}</div>`:''}
+<div class="title">${p.name}</div>
+<div class="price">${p.price}</div>
+${p.desc?`<div class="desc">${p.desc}</div>`:''}
+</div>`
+})
+document.getElementById('all').innerHTML = html
 }
 
-function openWA(nama){
-  // ... function lu ...
-}
-
-// HAPUS SEMUA KODE FETCH LAMA DARI SINI
-// fetch('products.json')... sampe .catch(err => {...})
-
-// TARO KODE BARU DI SINI, PALING BAWAH SEBELUM </script>
-let products = [
-  {"name":"JASA BANNED WA","price":"25K"},
-  {"divider":true},
-  {"type":"JASA UNBANNED WA","name":"SPAM TINJAU","price":"12K"},
-  {"type":"JASA UNBANNED WA","name":"PERMA NEW","price":"20K"},
-  {"type":"JASA UNBANNED WA","name":"PERMA HARD","price":"25K"},
-  {"type":"JASA UNBANNED WA","name":"PERMA BATU","price":"30K"},
-  {"type":"JASA UNBANNED WA","name":"PERMA LUMUT","price":"25K"},
-  {"type":"JASA UNBANNED WA","name":"PERMA LUMUT+BATU+HARD","price":"85K"},
-  {"divider":true},
-  {"name":"RESET OTP ALL SOSMED","price":"5K"},
-  {"divider":true},
-  {"name":"MURBANNED WA","price":"20K","desc":"FULL PENGAJARAN BENEFIT BANYAK UDAH FIX BALMOD DAN BISA BUKA JASA BA WA"},
-  {"divider":true},
-  {"name":"MURUNBANNED WA","price":"35K","desc":"FULL PENGAJARAN, BENEFIT BANYAK,BISA BUKA JASA UN WA,FIX BALMOD"},
-  {"divider":true},
-  {"name":"MURID DDOS VIA TERMUX+TELE","price":"10K"},
-  {"name":"MURTAG TELE","price":"20K"},
-  {"divider":true},
-  {"name":"JASA BUAT WEBSITE PRODUK","price":"20K","desc":"UNTUK TAMPILAN WEBSITE NYA SEPERTI WEBSITE INI"},
-  {"divider":true}
-]
 renderAll()
 </script>
 </body>
