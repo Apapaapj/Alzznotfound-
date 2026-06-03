@@ -7,149 +7,86 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+JP:wght@700&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:#000;color:#fff;font-family:'Share Tech Mono',monospace;overflow-x:hidden}
+  html,body{height:100%;background:#000;color:#fff;font-family:'Share Tech Mono',monospace;overflow-x:hidden}
   
-  /* Landing */
-  #landing{position:fixed;top:0;left:0;width:100%;height:100vh;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;transition:opacity 1s}
-  #landing.hide{opacity:0;pointer-events:none}
-  .logo-big{width:200px;height:200px;border-radius:50%;border:4px solid #ff0000;animation:pulse 2s infinite;object-fit:cover}
-  @keyframes pulse{0%,100%{box-shadow:0 0 20px #ff0000}50%{box-shadow:0 0 50px #ff0000,0 0 80px #ff0000}}
-  .enter-btn{margin-top:40px;padding:15px 40px;border:2px solid #ff0000;background:transparent;color:#ff0000;font-size:18px;cursor:pointer;transition:.3s;letter-spacing:2px}
-  .enter-btn:hover{background:#ff0000;color:#000;box-shadow:0 0 30px #ff0000;transform:scale(1.1)}
+  #bgVideo{position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.4) blur(2px);z-index:-1;pointer-events:none}
+  #landing{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:100;transition:opacity 0.5s}
+  #landing.hide{opacity:0;pointer-events:none;display:none !important}
+  .logo-big{width:180px;height:180px;border-radius:50%;border:4px solid #ff0000;animation:pulse 2s infinite;object-fit:cover;margin-bottom:20px}
+  @keyframes pulse{0%,100%{box-shadow:0 0 20px #ff0000}50%{box-shadow:0 0 50px #ff0000}}
+  .enter-btn{width:280px;height:60px;margin-top:20px;background:#000e;border:2px solid #ff0000;border-radius:10px;color:#ff0000;font-size:16px;cursor:pointer;letter-spacing:2px;font-family:'Share Tech Mono';transition:0.3s;text-shadow:0 0 10px #ff0000;backdrop-filter:blur(5px)}
+  .enter-btn:hover{background:#ff0000dd;color:#000;transform:scale(1.05);box-shadow:0 0 40px #ff0000}
   
-  /* Main */
-  #main{display:none;position:relative}
+  #main{display:none;min-height:100vh;background:transparent;position:relative;z-index:10}
   #main.show{display:block}
-  .glow{filter:drop-shadow(0 0 10px #ff0000) drop-shadow(0 0 20px #ff0000)}
-  .card{border:1px solid #2a0000;background:#0a0000;padding:15px;border-radius:8px;margin-bottom:10px;transition:.3s;cursor:pointer}
-  .card:hover{border-color:#ff0000;box-shadow:0 0 15px #ff000030;transform:translateX(5px)}
-  header{text-align:center;padding:30px 0;border-bottom:1px solid #2a0000}
-  .logo{width:150px;height:150px;border-radius:50%;border:3px solid #ff0000;transition:.3s;object-fit:cover;cursor:pointer}
-  .logo:hover{transform:scale(1.1) rotate(5deg);filter:drop-shadow(0 0 25px #ff0000)}
-  nav{display:flex;justify-content:center;gap:20px;padding:15px;border-bottom:1px solid #2a0000;flex-wrap:wrap}
-  .tab-btn{padding:10px 25px;background:none;border:none;border-bottom:2px solid #222;color:#666;cursor:pointer;font-size:16px;transition:.3s}
-  .tab-btn.active{border-bottom:2px solid #ff0000;color:#ff0000;text-shadow:0 0 10px #ff0000}
-  .container{max-width:700px;margin:0 auto;padding:20px;position:relative;z-index:2}
+  .glow{filter:drop-shadow(0 0 10px #ff0000)}
+  header{text-align:center;padding:30px 20px;border-bottom:1px solid #2a0000}
+  .logo{width:120px;height:120px;border-radius:50%;border:3px solid #ff0000;object-fit:cover;cursor:pointer;transition:0.3s}
+  .logo:hover{transform:rotate(10deg) scale(1.1)}
+  nav{display:flex;justify-content:center;gap:15px;padding:15px;border-bottom:1px solid #2a0000;flex-wrap:wrap}
+  .tab-btn{padding:10px 20px;background:none;border:none;border-bottom:2px solid #333;color:#888;cursor:pointer;font-size:15px;transition:0.3s}
+  .tab-btn.active{border-bottom:2px solid #ff0000;color:#ff0000;text-shadow:0 0 8px #ff0000}
+  .container{max-width:650px;margin:0 auto;padding:20px}
   .tab-content{display:none}
   .tab-content.active{display:block}
+  .card{border:1px solid #2a0000;background:#0a0000;padding:15px;border-radius:8px;margin-bottom:10px;cursor:pointer;transition:0.3s}
+  .card:hover{border-color:#ff0000;box-shadow:0 0 15px #ff000030;transform:translateX(5px)}
+  .price{color:#ff0000;font-weight:bold;float:right}
+  .desc{font-size:11px;color:#999;margin-top:6px;line-height:1.4}
   .divider{border-top:1px solid #2a0000;margin:20px 0}
-  .price{color:#ff0000;font-weight:bold}
-  footer{text-align:center;padding:20px;color:#444;border-top:1px solid #2a0000;margin-top:40px;font-size:12px}
-  
-  /* Admin Panel Hidden */
-  .admin-panel{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#000f9;z-index:1000;justify-content:center;align-items:center}
-  .admin-panel.show{display:flex}
-  .admin-box{background:#0a0000;border:2px solid #ff0000;border-radius:10px;padding:20px;width:90%;max-width:500px;max-height:85vh;overflow-y:auto}
-  .admin-box input, .admin-box textarea{width:100%;padding:10px;margin:8px 0;background:#000;border:1px solid #2a0000;color:#fff;border-radius:5px;font-family:'Share Tech Mono'}
-  .admin-box button{padding:10px 15px;margin:5px;background:#ff0000;color:#000;border:none;cursor:pointer;border-radius:5px;font-weight:bold}
-  .btn-del{background:#666}
-  .admin-item{border:1px solid #2a0000;padding:10px;margin:8px 0;border-radius:5px;display:flex;justify-content:space-between;align-items:center}
-  
-  /* Blood Rain */
-  .blood{position:fixed;top:-10px;width:2px;height:15px;background:linear-gradient(transparent,#ff0000);animation:fall linear infinite;z-index:1;opacity:0.3}
+  footer{text-align:center;padding:20px;color:#555;border-top:1px solid #2a0000;margin-top:30px;font-size:12px}
+  .blood{position:fixed;top:-10px;width:2px;height:15px;background:linear-gradient(transparent,#ff0000);animation:fall linear infinite;z-index:5;opacity:0.3;pointer-events:none}
   @keyframes fall{to{transform:translateY(100vh)}}
 </style>
 </head>
 <body>
 
+<video autoplay muted loop playsinline id="bgVideo">
+  <source src="https://files.catbox.moe/2wo9fk.mp4" type="video/mp4">
+</video>
+
 <audio id="slashSound" preload="auto">
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_d1718f6e98.mp3" type="audio/mpeg">
+  <source src="https://files.catbox.moe/9y7fxh.mp3" type="audio/mpeg">
 </audio>
 
-<!-- LANDING -->
 <div id="landing">
   <img src="https://i.imgur.com/yIiQEkK.jpeg" alt="Logo" class="logo-big">
-  <h1 style="color:#ff0000;margin-top:30px;font-family:'Noto Sans JP';font-size:2.5rem" class="glow">AlzzNotFound</h1>
-  <p style="color:#666;margin-top:10px">@alzzisback</p>
+  <h1 style="color:#ff0000;font-family:'Noto Sans JP';font-size:2rem" class="glow">AlzzNotFound</h1>
+  <p style="color:#aaa;font-size:14px">@alzzisback</p>
   <button class="enter-btn" onclick="enterSite()">[ GO TO AlzzNotFound ]</button>
 </div>
 
-<!-- MAIN -->
 <div id="main">
   <div id="bloodRain"></div>
-<header>
-  <img src="https://i.imgur.com/yIiQEkK.jpeg" alt="Logo" class="logo glow" id="secretLogo">
-  <h2 style="color:#ff0000;margin-top:15px;font-family:'Noto Sans JP'">AlzzNotFound</h2>
-  <p style="color:#ff0000;opacity:.7;margin-top:5px;font-size:14px">@alzzisback</p>
-</header>
+  <header>
+    <img src="https://i.imgur.com/yIiQEkK.jpeg" alt="Logo" class="logo glow">
+    <h2 style="color:#ff0000;margin-top:10px;font-family:'Noto Sans JP'">AlzzNotFound</h2>
+    <p style="color:#666;font-size:13px">@alzzisback</p>
+  </header>
 
-<nav>
-  <button class="tab-btn active" onclick="openTab('all',event)">ALL</button>
-  <button class="tab-btn" onclick="openTab('product',event)">PRODUCT</button>
-  <button class="tab-btn" onclick="openTab('contact',event)">CONTAK</button>
-</nav>
+  <nav>
+    <button class="tab-btn active" onclick="openTab('all',event)">ALL</button>
+    <button class="tab-btn" onclick="openTab('product',event)">PRODUCT</button>
+    <button class="tab-btn" onclick="openTab('contact',event)">CONTAK</button>
+  </nav>
 
-<div class="container">
-  <div id="all" class="tab-content active"></div>
-  <div id="product" class="tab-content"></div>
-  <div id="contact" class="tab-content"></div>
-</div>
-
-<footer>© 2026 AlzzNotFound | Made with ☠️</footer>
-</div>
-
-<!-- ADMIN PANEL HIDDEN -->
-<div class="admin-panel" id="adminPanel">
-  <div class="admin-box">
-    <h2 style="color:#ff0000;margin-bottom:15px">PANEL ADMIN RAHASIA</h2>
-    <div id="loginBox">
-      <input type="password" id="adminPass" placeholder="Masukin password admin">
-      <button onclick="loginAdmin()">LOGIN</button>
-    </div>
-    
-    <div id="adminContent" style="display:none">
-      <h3 style="color:#ff0000;margin:15px 0">TAMBAH PRODUK</h3>
-      <input type="text" id="pName" placeholder="Nama Produk">
-      <input type="text" id="pPrice" placeholder="Harga - contoh: 25K">
-      <input type="text" id="pType" placeholder="Type - contoh: JASA UNBANNED">
-      <textarea id="pDesc" placeholder="Deskripsi - opsional"></textarea>
-      <button onclick="addProduct()">+ TAMBAH</button>
-      <button onclick="addDivider()">--- TAMBAH GARIS ---</button>
-      
-      <h3 style="color:#ff0000;margin:20px 0 10px">DAFTAR PRODUK</h3>
-      <div id="adminList"></div>
-      
-      <button onclick="logoutAdmin()" style="margin-top:20px;background:#666">TUTUP PANEL</button>
-    </div>
+  <div class="container">
+    <div id="all" class="tab-content active"></div>
+    <div id="product" class="tab-content"></div>
+    <div id="contact" class="tab-content"></div>
   </div>
+
+  <footer>© 2026 AlzzNotFound | Made with ☠️</footer>
 </div>
 
 <script>
-const ADMIN_PASS = "alzz123" // GANTI PASSWORD DISINI
-const WA_NUMBER = "6289525437196" // GANTI NOMOR WA LU
-
-let products = JSON.parse(localStorage.getItem('alzzProducts')) || [
-  {name:'JASA BANNED',price:'25K'},
-  {divider:true},
-  {type:'JASA UNBANNED',name:'SPAM TINJAU',price:'12K'},
-  {type:'JASA UNBANNED',name:'PERMA NEW',price:'20K'},
-  {type:'JASA UNBANNED',name:'PERMA HARD',price:'25K'},
-  {divider:true},
-  {name:'RESET OTP ALL SOSMED',price:'5K'},
-]
-
-// Kode rahasia klik logo 5x
-let logoClicks = 0
-let lastClick = 0
-document.getElementById('secretLogo').addEventListener('click', () => {
-  let now = Date.now()
-  if(now - lastClick > 2000) logoClicks = 0 // reset kalo jeda > 2 detik
-  logoClicks++
-  lastClick = now
-  if(logoClicks >= 5){
-    document.getElementById('adminPanel').classList.add('show')
-    logoClicks = 0
-  }
-})
-
-function saveProducts(){
-  localStorage.setItem('alzzProducts', JSON.stringify(products))
-  renderAll()
-}
+const WA_NUMBER = "6289525437196"
+const TELEGRAM = "alzzisback"
+let products = []
 
 function enterSite(){
   const sound = document.getElementById('slashSound')
-  sound.volume = 0.5
+  sound.volume = 0.8
   sound.currentTime = 0
   sound.play().catch(e=>console.log('Audio blocked:',e))
   
@@ -158,11 +95,12 @@ function enterSite(){
     document.getElementById('landing').style.display='none'
     document.getElementById('main').classList.add('show')
     createBloodRain()
-  },1000)
+  },500)
 }
 
 function createBloodRain(){
   const container = document.getElementById('bloodRain')
+  container.innerHTML = ''
   for(let i=0;i<50;i++){
     const drop = document.createElement('div')
     drop.className = 'blood'
@@ -185,9 +123,50 @@ function openTab(tabName,event){
 }
 
 function renderProducts(){
-  let html = '<h2 style="color:#ff0000;font-size:1.5rem;margin-bottom:15px" class="glow">PRODUCT LIST</h2>'
-  products.forEach((p,i)=>{
+  if(products.length === 0) return '<p style="color:#ff0000;text-align:center">Loading produk...</p>'
+  let html = '<h2 style="color:#ff0000;font-size:1.4rem;margin-bottom:15px">PRODUCT LIST</h2>'
+  products.forEach(p=>{
     if(p.divider){html += '<div class="divider"></div>'}
     else{
       html += `<div class="card" onclick="orderAlert('${p.name}','${p.price}')">`
-      if(p.type) html += `<p style="font-size:12px
+      if(p.type) html += `<div style="font-size:11px;color:#ff0000;margin-bottom:4px">[${p.type}]</div>`
+      html += `<div>${p.name}<span class="price">${p.price}</span></div>`
+      if(p.desc) html += `<div class="desc">${p.desc}</div>`
+      html += `</div>`
+    }
+  })
+  return html
+}
+
+function renderContact(){
+  return `<h2 style="color:#ff0000;font-size:1.4rem;margin-bottom:15px">CONTAK</h2>
+  <div class="card" style="text-align:center;padding:25px">
+    <p style="margin-bottom:20px;font-size:16px">ORDER? HUBUNGIN KONTAK INI!!!</p>
+    <div style="display:flex;justify-content:center;gap:15px;flex-wrap:wrap">
+      <a href="https://wa.me/${WA_NUMBER}" target="_blank" style="padding:12px 25px;border:2px solid #25D366;color:#25D366;text-decoration:none;border-radius:8px">WhatsApp</a>
+      <a href="https://t.me/${TELEGRAM}" target="_blank" style="padding:12px 25px;border:2px solid #0088cc;color:#0088cc;text-decoration:none;border-radius:8px">Telegram @${TELEGRAM}</a>
+    </div>
+  </div>`
+}
+
+function renderAll(){
+  document.getElementById('all').innerHTML = renderProducts() + '<div class="divider"></div>' + renderContact()
+  document.getElementById('product').innerHTML = renderProducts()
+  document.getElementById('contact').innerHTML = renderContact()
+}
+
+// LOAD PRODUK DARI FILE JSON - INI KUNCINYA
+fetch('products.json')
+  .then(res => res.json())
+  .then(data => {
+    products = data
+    renderAll()
+  })
+  .catch(err => {
+    console.log('Gagal load produk:', err)
+    document.getElementById('all').innerHTML = '<p style="color:#ff0000;text-align:center">Gagal load products.json</p>'
+  })
+</script>
+
+</body>
+</html>
